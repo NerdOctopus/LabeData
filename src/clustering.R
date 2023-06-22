@@ -28,6 +28,36 @@ fp <- file.path("C:", "LabeWork", "rds", "parsed_expanded", "binary_valued", "re
 
 saveRDS(result.df, file = fp) # save one-hot file to disk
 
+##### unique sampling GO
+
+files.v <- dir(pattern = ".RDS")
+
+for (i in seq_along(files.v)){
+  
+  working.df <- readRDS(files.v[1])
+  a <- which(str_detect(colnames(working.df), "_ISA_"))
+  b <- working.df[, a]
+  
+  sample1.df <- b[sample(1:nrow(b), 900, replace = TRUE)] #too tired to figure out this sampling right now, very close to just taking two random samples and double dipping
+
+  
+    file.path("C:", "LabeWork", "rds", "parsed_expanded", "binary_valued", "results", "binary_valued_500")
+    
+    file_name <- files.v[i]
+    file_name_1 <- paste0(file_name, "_sample1") # add file type to file name for saving
+    file_name_2 <- paste0(file_name, "_sample2")
+    # ! make sub directory in current working directory called "binary_valued." Otherwise the following lines will not work!
+    fp1 <- file.path("C:", "LabeWork", "rds", "parsed_expanded", "binary_valued", "results", "binary_valued_500", file_name_1) # file path for save
+    fp2 <- file.path("C:", "LabeWork", "rds", "parsed_expanded", "binary_valued", "results", "binary_valued_500", file_name_2) # file path for save
+    
+    saveRDS(result.df, file = fp1) # save one-hot file to disk
+    saveRDS(result.df, file = fp2) # save one-hot file to disk
+    
+}
+
+
+
+##### other code
 
 cm <- cluscomp(as.data.frame(result.df), clmin = 5, clmax = 1, algorithms = list("kmeans", "agnes"))
 
